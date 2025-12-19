@@ -43,6 +43,8 @@ import static org.jpc.emulator.execution.UCodes.*;
 
 public class Processor implements HardwareComponent
 {
+    private static final boolean LOG_HALTS = false;
+
     private static final Logger LOGGING = Logger.getLogger(Processor.class.getName());
     private static final boolean USEBOCHS = Option.useBochs.isSet();
 
@@ -3523,13 +3525,15 @@ public class Processor implements HardwareComponent
 
     public void waitForInterrupt()
     {
-        System.out.printf("*****START HALT ticks=%016x\n", vmClock.getTicks());
+        if (LOG_HALTS)
+            System.out.printf("*****START HALT ticks=%016x\n", vmClock.getTicks());
         int ints = 0;
         while ((interruptFlags & IFLAGS_HARDWARE_INTERRUPT) == 0) {
             vmClock.updateNowAndProcess(!SKIP_SLEEPS);
             ints++;
         }
-        System.out.printf("END HALT ticks=%016x, interrupts=%d\n", vmClock.getTicks(), ints);
+        if (LOG_HALTS)
+            System.out.printf("END HALT ticks=%016x, interrupts=%d\n", vmClock.getTicks(), ints);
     }
 
     public void requestReset()
