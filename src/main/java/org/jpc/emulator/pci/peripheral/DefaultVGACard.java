@@ -49,10 +49,10 @@ import org.jpc.j2se.PCMonitor;
  */
 public class DefaultVGACard extends VGACard {
 
-    private int[] rawImageData;
-    private int xmin,  xmax,  ymin,  ymax,  width,  height;
-    private BufferedImage buffer;
-    PCMonitor monitor;
+    protected int[] rawImageData;
+    protected int xmin,  xmax,  ymin,  ymax,  width,  height;
+    protected BufferedImage buffer;
+    protected PCMonitor monitor;
 
     public DefaultVGACard() 
     {
