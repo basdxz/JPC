@@ -85,15 +85,15 @@ public class PC {
 
     protected static final Logger LOGGING = Logger.getLogger(PC.class.getName());
 
-    protected final Processor processor;
-    protected final PhysicalAddressSpace physicalAddr;
-    protected final LinearAddressSpace linearAddr;
-    protected final Clock vmClock;
-    protected final InterruptController pic;
-    protected final List<HardwareComponent> parts;
-    protected final CodeBlockManager manager;
+    protected Processor processor;
+    protected PhysicalAddressSpace physicalAddr;
+    protected LinearAddressSpace linearAddr;
+    protected Clock vmClock;
+    protected InterruptController pic;
+    protected List<HardwareComponent> parts;
+    protected CodeBlockManager manager;
     protected EthernetCard ethernet;
-    protected final Keyboard keyboard;
+    public Keyboard keyboard;
 
     /**
      * Constructs a new <code>PC</code> instance with the specified external time-source and
