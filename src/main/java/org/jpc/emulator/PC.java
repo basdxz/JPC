@@ -78,22 +78,22 @@ public class PC {
 
     public static final boolean HISTORY = Option.history.isSet();
     public static final int HISTORY_SIZE = 200;
-    private static final int[] ipHistory = new int[HISTORY_SIZE];
-    private static int historyIndex = 0;
-    private static int insHistoryIndex = 0;
-    private static CodeBlock[] prevBlocks = new CodeBlock[HISTORY_SIZE];
+    protected static final int[] ipHistory = new int[HISTORY_SIZE];
+    protected static int historyIndex = 0;
+    protected static int insHistoryIndex = 0;
+    protected static CodeBlock[] prevBlocks = new CodeBlock[HISTORY_SIZE];
 
-    private static final Logger LOGGING = Logger.getLogger(PC.class.getName());
+    protected static final Logger LOGGING = Logger.getLogger(PC.class.getName());
 
-    private final Processor processor;
-    private final PhysicalAddressSpace physicalAddr;
-    private final LinearAddressSpace linearAddr;
-    private final Clock vmClock;
-    private final InterruptController pic;
-    private final List<HardwareComponent> parts;
-    private final CodeBlockManager manager;
-    private EthernetCard ethernet;
-    private final Keyboard keyboard;
+    protected final Processor processor;
+    protected final PhysicalAddressSpace physicalAddr;
+    protected final LinearAddressSpace linearAddr;
+    protected final Clock vmClock;
+    protected final InterruptController pic;
+    protected final List<HardwareComponent> parts;
+    protected final CodeBlockManager manager;
+    protected EthernetCard ethernet;
+    protected final Keyboard keyboard;
 
     /**
      * Constructs a new <code>PC</code> instance with the specified external time-source and
@@ -235,7 +235,11 @@ public class PC {
         this(new VirtualClock(), args, getStartTime());
     }
 
-    private static Calendar getStartTime()
+    public PC() throws IOException {
+        this(new String[0]);
+    }
+
+    protected static Calendar getStartTime()
     {
         Calendar start = Calendar.getInstance();
         if (Option.startTime.isSet())
@@ -396,21 +400,21 @@ public class PC {
         return res;
     }
 
-    private int getBase(Segment s)
+    protected int getBase(Segment s)
     {
         if (s instanceof SegmentFactory.NullSegment)
             return 0;
         return s.getBase();
     }
 
-    private int getLimit(Segment s)
+    protected int getLimit(Segment s)
     {
         if (s instanceof SegmentFactory.NullSegment)
             return 0xffff;
         return s.getLimit();
     }
 
-    private long getTicks()
+    protected long getTicks()
     {
         for (HardwareComponent c: parts)
             if (c instanceof Clock)
@@ -491,7 +495,7 @@ public class PC {
         ((FloppyController) getComponent(FloppyController.class)).changeDisk(disk, index);
     }
 
-    private boolean configure() {
+    protected boolean configure() {
         boolean fullyInitialised;
         int count = 0;
         do {
@@ -550,7 +554,7 @@ public class PC {
         LOGGING.log(Level.INFO, "snapshot done");
     }
 
-    private void saveComponent(ZipOutputStream zip, HardwareComponent component) throws IOException {
+    protected void saveComponent(ZipOutputStream zip, HardwareComponent component) throws IOException {
         LOGGING.log(Level.FINE, "snapshot saving {0}", component);
         int i = 0;
         while (true) {
@@ -632,7 +636,7 @@ public class PC {
         }
     }
 
-    private void linkComponents() {
+    protected void linkComponents() {
         boolean fullyInitialised;
         int count = 0;
 
@@ -714,7 +718,7 @@ public class PC {
         return processor;
     }
 
-    private static int staticClockx86Count=0;
+    protected static int staticClockx86Count=0;
 
     public int eipBreak(Integer breakEip)
     {
@@ -990,7 +994,7 @@ public class PC {
         }
     }
 
-    private void printInsHistory()
+    protected void printInsHistory()
     {
         for (int i = historyIndex; i != (historyIndex-1+HISTORY_SIZE)%HISTORY_SIZE; i = (i+1)%HISTORY_SIZE)
         {
@@ -1016,7 +1020,7 @@ public class PC {
         }
     }
 
-//    private void printHistory()
+//    protected void printHistory()
 //    {
 //        for (int i = historyIndex; i != (historyIndex-1+HISTORY_SIZE)%HISTORY_SIZE; i = (i+1)%HISTORY_SIZE)
 //        {
@@ -1038,7 +1042,7 @@ public class PC {
 //        }
 //    }
 
-    private static void logIP(int cseip)
+    protected static void logIP(int cseip)
     {
         ipHistory[historyIndex % HISTORY_SIZE] = cseip;
         historyIndex++;

@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "org.jpc"
-version = "3.0"
+version = "3.0.1-ven"
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(8))
 

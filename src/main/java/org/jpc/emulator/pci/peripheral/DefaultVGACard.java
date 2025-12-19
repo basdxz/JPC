@@ -47,7 +47,7 @@ import org.jpc.j2se.PCMonitor;
  *
  * @author Ian Preston
  */
-public final class DefaultVGACard extends VGACard {
+public class DefaultVGACard extends VGACard {
 
     private int[] rawImageData;
     private int xmin,  xmax,  ymin,  ymax,  width,  height;
