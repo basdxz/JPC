@@ -12,8 +12,25 @@ java {
     withSourcesJar()
 }
 
-sourceSets.main {
+// Change the args here if you want to do a custom run
+val defArgs = listOf("-fda", "mem:resources/images/floppy.img", "-hda", "mem:resources/images/dosgames.img", "-boot", "fda")
 
+tasks.register<JavaExec>("runJPCApplication") {
+    group = "jpc"
+    dependsOn("classes")
+    classpath = java.sourceSets["main"].runtimeClasspath
+
+    mainClass = "org.jpc.j2se.JPCApplication"
+    args = defArgs
+}
+
+tasks.register<JavaExec>("runJPCDebugger") {
+    group = "jpc"
+    dependsOn("classes")
+    classpath = java.sourceSets["main"].runtimeClasspath
+
+    mainClass = "org.jpc.debugger.JPC"
+    args = defArgs
 }
 
 publishing {
